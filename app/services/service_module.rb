@@ -70,7 +70,8 @@ module ServiceModule
       end
 
       unless callable.respond_to?(:call)
-        raise NonCallablePassedToRun, 'You can pass only symbol with method name or instance of callable class to run method'
+        raise NonCallablePassedToRun,
+              'You can pass only symbol with method name or instance of callable class to run method'
       end
 
       begin
@@ -78,9 +79,9 @@ module ServiceModule
       rescue ArgumentError => e
         if e.message.include? 'missing'
           raise IncompatibleParamsPassed, "You didn't pass #{e.message} to callable '#{callable.name}'"
-        else
-          raise IncompatibleParamsPassed, "You passed #{e.message} to callable '#{callable.name}'"
         end
+
+        raise IncompatibleParamsPassed, "You passed #{e.message} to callable '#{callable.name}'"
       end
     end
 
@@ -94,7 +95,10 @@ module ServiceModule
     end
 
     def enforce_data_format
-      raise WrongDataPassed, "You didn't use `success` or `failure` method to return value from method." unless @_passed_input.instance_of? Result
+      return if @_passed_input.instance_of? Result
+
+      raise WrongDataPassed,
+            "You didn't use `success` or `failure` method to return value from method."
     end
   end
 end

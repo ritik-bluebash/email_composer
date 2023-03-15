@@ -1,7 +1,8 @@
 class EmailBuilder
   include ActiveModel::Model
 
-  CATEGORIES = { inquiry: 'Inquiry', feedback: 'Feedback', acknowledge: 'Acknowledge', sales: 'Sales', marketing: 'Marketing', general: 'General', management: 'Management'}.freeze
+  CATEGORIES = { inquiry: 'Inquiry', feedback: 'Feedback', acknowledge: 'Acknowledge', sales: 'Sales',
+                 marketing: 'Marketing', general: 'General', management: 'Management' }.freeze
   TONES = { formal: 'Formal', casual: 'Casual', polite: 'Polite' }.freeze
 
   attr_accessor :id, :category, :topic, :tone, :additional_note, :result
@@ -39,6 +40,6 @@ class EmailBuilder
   end
 
   def prepare_context!
-    "An Inquiry mail for the 2 days sick leave in a polite way to manager from developer, in 3 different ways."
+    'An Inquiry mail for the 2 days sick leave in a polite way to manager from developer, in 3 different ways.'
   end
 end

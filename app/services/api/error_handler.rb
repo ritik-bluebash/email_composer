@@ -17,21 +17,21 @@ module Api
                   exception.message
                 end
 
-      success(exception: exception, message: message, opts: opts)
+      success(exception:, message:, opts:)
     end
 
     def log_error(exception:, message:, opts:)
       Rails.logger.error message
       Rails.logger.error exception.backtrace.join("\n")
 
-      success(exception: exception, message: message, opts: opts)
+      success(exception:, message:, opts:)
     end
 
     def report_error(exception:, message:, opts:)
       # overwrite this method in your application to support different error handlers
       # eg. Sentry, Rollbar, etc
 
-      success(exception: exception, message: message)
+      success(exception:, message:)
     end
   end
 end

@@ -18,7 +18,7 @@ module Api
       end
 
       def render_serialized_payload(status = 200)
-        render json: yield, status: status, content_type: content_type
+        render json: yield, status:, content_type:
       end
 
       def render_error_payload(error, status = 422)
@@ -27,10 +27,10 @@ module Api
                elsif error.is_a?(Struct)
                  { error: error.to_s, errors: error.to_h }
                else
-                 { error: error }
+                 { error: }
                end
 
-        render json: json, status: status, content_type: content_type
+        render json:, status:, content_type:
       end
 
       def render_result(result, ok_status = 200)
@@ -42,7 +42,7 @@ module Api
       end
 
       def error_during_processing(exception)
-        result = error_handler.call(exception: exception, opts: {})
+        result = error_handler.call(exception:, opts: {})
 
         render_error_payload(result.value[:message], 400)
       end

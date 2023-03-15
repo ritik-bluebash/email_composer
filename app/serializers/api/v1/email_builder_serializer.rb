@@ -6,7 +6,7 @@ module Api
       attributes :category, :topic, :tone, :additional_note, :result
       set_id :id
 
-      attribute :id do |id|
+      attribute :id do |_id|
         nil
       end
     end

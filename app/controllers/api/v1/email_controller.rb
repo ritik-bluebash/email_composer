@@ -1,11 +1,10 @@
 module Api
   module V1
     class EmailController < BaseController
-
       def generate
         email_builder = EmailBuilder.new(permitted_params)
         if email_builder.valid?
-          result = email_composer_service.call(email_builder: email_builder)
+          result = email_composer_service.call(email_builder:)
           render_result(result)
         else
           render_error_payload(email_builder)
