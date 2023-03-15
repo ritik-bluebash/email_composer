@@ -2,42 +2,35 @@ module OpenAI
   class EmailComposer
     prepend ::ServiceModule::Base
 
-    attr_reader :client, :resource_klass
+    attr_reader :client
 
     def initialize
       @client = OpenAI::Client.new
-      @resource_klass = EmailBuilder.new
     end
 
-    def call(params:)
-      run :prepare_context
+    def call(email_builder:)
       run :execute
     end
 
     private
 
-    def execute(params:)
+    def execute(email_builder:)
       response = client.chat(
           parameters: {
               model: model_name,
-              messages: [{ role: "user", content: prepare_context }],
+              messages: [{ role: "user", content: email_builder.prepare_context! }],
               temperature: 0.7,
           })
 
       if response.dig("error").present?
-        resource_klass.errors.add(:base, response.dig("error", "message"))
-        return failure(resource_klass)
+        email_builder.errors.add(:base, response.dig("error", "message"))
+        return failure(email_builder)
       end
 
       data = response.dig("choices", 0, "message", "content")
-      resource_klass.assign_attributes(result: data)
+      email_builder.assign_attributes(result: data)
 
-      success(resource_klass)
-    end
-
-    def prepare_context(params:)
-      resource_klass.assign_attributes(params)
-      response_klass.formatted_text!
+      success(email_builder)
     end
 
     def model_name

@@ -3,14 +3,23 @@ module Api
     class EmailController < BaseController
 
       def generate
-        response = email_composer_service.call(permitted_params)
-        render_result(response)
+        email_builder = EmailBuilder.new(permitted_params)
+        if email_builder.valid?
+          result = email_composer_service.call(email_builder: email_builder)
+          render_result(result)
+        else
+          render_error_payload(email_builder)
+        end
       end
 
       private
 
       def email_composer_service
         ::OpenAI::EmailComposer.new
+      end
+
+      def resource_serializer
+        ::Api::V1::EmailBuilderSerializer
       end
 
       def permitted_params

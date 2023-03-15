@@ -3,11 +3,12 @@ module Api
     class EmailBuilderSerializer
       include JSONAPI::Serializer
 
-      attributes :category, :topic, :tone, :additional_comment, :result
+      attributes :category, :topic, :tone, :additional_note, :result
+      set_id :id
 
-      # attribute :result do |email|
-      #   email.result.html_safe
-      # end
+      attribute :id do |id|
+        nil
+      end
     end
   end
 end
