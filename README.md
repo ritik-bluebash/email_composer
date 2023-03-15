@@ -12,7 +12,7 @@ Before you begin, make sure you have the following installed:
 
 1. Clone this repository to your local machine:
 ```ruby
-git clone https://github.com/username/email_composer.git
+git clone https://github.com/rahul-bluebash/email_composer.git
 ```
 2. Change into the project directory:
 ```ruby
